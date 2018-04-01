@@ -1,0 +1,12 @@
+#一、Window:
+- window是View的直接管理者
+- WindowManager可以通过设置LayoutParams中的flags,type这两个参数来添加一个View.windowManager.addView(contentview,mLayoutParams)
+- Flags参数表示window的属性，主要有：FLAG_NOT_FOCUSABLE(表示window不需要获取焦点，也不需要接收各种的输入时间，此标记会同时启用FLAG_NOT_TOUCH_MODAL,最终的时间直接传递给下层的具有焦点的window),FLAG_NOT_TOUCH_MODAL(系统会将当前window以外的单击事件传递给底层的window,当前的window区域以内的单击事件则自己处理，这个标记比较重要，一般都需要开启这个标记，否则其他window将无法接收到单击事件）,FLAG_SHOW_WHEN_LOCKED(可以让window显示在锁屏的界面上）。
+- window分为3层，应用window,子window，系统window(用于一些权限的显示）
+- windowManager所提供的功能很简单，常用的方法只有3个，分别是更新View,删除View,添加View.最终是通过windowManagerGlobal来处理的。
+
+#二、Window的内部机制：
+- 每一个window都对应着一个View和ViewrootImpl,window和view是通过ViewrootImpl来建立联系的，window并不是实际存在的，它是通过View 的形式存在。
+- 普通的dialog有一个特殊之处，就是必须采用Activity的Context,如果采用了Application的Context,将会报错。因为Application没有应用Token.
+- window的添加过程：windowmanager.addView()其实现是在WindowManagerImpl类中实现的，主要是通过WindowManagerGlobal来实现的。其步骤大概是：首先检查是否合法，如果是子window,则需要调整一些布局。再通过ViewRootImpl将View添加到队列中，并更新界面，完成window的添加过程。
+- window的删除过程：最终也是通过WindowmanagerGlobal的removeView来实现的，首先通过findViewLocked来查找删除View的索引，再调用removeViewLocked来做进一步的删除。

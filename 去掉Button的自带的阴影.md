@@ -1,0 +1,7 @@
+<Button
+android:id="@+id/button_send"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="@string/button_send"
+android:onClick="sendMessage"
+**style="?android:attr/borderlessButtonStyle"** />
