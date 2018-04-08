@@ -1,0 +1,27 @@
+## 对比Android中的RecyclerView与ListView的缓存机制 ##
+
+## ListView ##
+
+- listView与GridView均是继承自AbsListView,所以缓存逻辑是在AbsListView中实现的。
+- AbsListView继承自ViewGroup,在其中是实现了onMeasure,onLayout等方法。其内部缓存是通过RecyclerBin来实现缓存的，其内部通过定义多个数组对不同类型的View进行缓存，在调用NotifyDataSetChanged的时候，会进行重新绘制,需要全局进行刷新。先从缓存中取，如果没有取到，则会重新创建一个View.
+
+
+## RecyclerView 
+相对于ListView和GridView,RecyclerView的最大的一个特征就是灵活，主要体现在以下的几个方面,缓存通过ViewHolder：
+
+- 多样式：RecyclerView可以实现展示的自定义，比如列表类，网格甚至是瀑布流等
+- 定向刷新:可以对指定的item进行数据刷线
+- 刷新动画:RecyclerView支持对Item的刷新添加动画。
+- 添加装饰:相对于ListView的单一的分割线，RecyclerView可以自定义添加分割线样式。
+
+- RecyclerView.layoutManager:负责item视图的布局的显示管理
+- RecyclerView.ItemDecoration:给每一个Item视图添加修饰的view
+- RecyclerView.Adapter:为每一项Item创建新的视图
+- RecyclerView.ViewHolder:承载Item视图的子布局
+- RecyclerView.ItemAnimator:负责处理添加或删除时候的动画效果
+- RecyclerView.Cache:Recycler/RecycledViewPool..对item有强大的Item的缓存
+
+RecyclerView的内部实际上是采用了系统的Observable,就是观察者模式，AdapterDataObservable式一个静态内部类，主要实现了notifyChanged,notifyItemRangeChanged等提醒数据变化的方法。
+
+- RecyclerView的内部缓存机制是Recycler,其实际上缓存ViewHolder的2类集合，一类是可见的ViewHolder数组，一类是不可见的ViewHolder数组，是一个专门用于回收ViewHolder类，其实RecyclerView的缓存机制是在ListView的缓存机制上的进一步完善，其最大的创新点就是给每个ViewHolder添加了一个UpdateOp,通过这个标识，可以进行定向刷线指定的Item,通过Payload参数可以实现对Item的进行局部刷新。
+- 局部刷线：主要是通过notifyItemChanged的方法来进行刷新的，其中可以传递一个Position,这个Position主要是通过onBindViewHolder,主要是通过position。
