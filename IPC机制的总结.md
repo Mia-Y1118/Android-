@@ -64,42 +64,11 @@
 
 ###3、使用Messenger:信使,底层实现方案是AIDL.在Messager中进行数据传递必须将数据放入Message中,Messager是以串行的方式来处理的.
 
-###4、使用AIDL:支持的数据类型有（基本数据类型，String,CharSequence,List中的每个元素都是可序列化的。Map,Parcelablr.)
+###4、使用AIDL:支持的数据类型有（基本数据类型，String,CharSequence,List中的每个元素都是可序列化的。Map,Parcelablr.)：注意不要在onServiceConnectioned和onServiceDisconnected中进行耗时的操作。
 
+###5、使用ContentProvider:底层的实现是Binder.自定义Provider就是继承自Provider,并实现其中的onCreate（运行在主线程）,query，getType,insert,delete,update等方法（运行在Binder线程池中）,其增删改查是多线程并发进行的,在运用的时候需要做到多线程同步问题。
 
-#2018/03/16
-##一、View的基础知识:
-###1、View本身就可以是单个控件,也可以是多个控件组成的一组控件。		
-	View的位置主要由它的四个顶点来决定，分别对应于View的四个属性，Top(左上角纵坐标）,left（左上角横坐标）,right（右下角横坐标）,bottom（右下角纵坐标）。这些坐标都是相对于View的容器。（View在平移的过程中，top,left表示的原始左上角的位置信息的值并不会发生改变，此时发生改变的是x,y,translationX和translationY)
+###6、Socket：使用套接字，不仅能实现进程间通信，还能实现设备间通信。
 
-###2、View的一些参数：
-	①getX/getY返回的是相对于当前View的左上角的x和y坐标，getRawX/getRawY返回的是相对于手机屏幕左上角的x和y的坐标。
-	
-	②TouchSlop:是系统所能识别的最小的可认为是滑动的距离。可以通过：ViewConfiguration.get(getContext()).getScaledTouchSlop()来获取这个常量,如果两次滑动的距离小于这个值,系统就不认为是进行滑动操作。
-
-	③VelocityTracker:用于追踪手在滑动过程中的速度,包括水平和竖直方向的速度。获取速度之前必须计算速度,再获取垂直和水平方向的速度,当不需要使用它的时候,需要调用clear来重置并回收内存。
-
-	④GestureDetector:用于辅助检测用户的单击，滑动，长按，双击等行为。解决长按屏幕后无法拖动的问题：
-	GestureDetector mGestureDetector = new GestureDetector(this)
-	mGestureDetector.setIsLongpressEnabled(false)
-
-###3、改变布局的参数：
-	①先获取组件的参数
-	②对params做改变，重新设置一些值
-	③组件重现设置参数
-
-###4、各种滑动方式的对比：
-	①scrollTo/scrollBy:是view提供的原生的方法,它可以实现滑动的效果，但是并不影响内部元素的点击事件（当滑动组件后，点击效果还是原来的地方有效）
-	
-	②动画（xml):主要使用与没有交互的View和实现复杂的动画效果
-
-	③改变布局参数：操作稍微复杂,适用于由交互的View.
-	
-
-
-
-
-
-
-
-
+	流式套接字TCP：面向连接，提供稳定的双向通信功能，连接的建立需要经过3次握手，画质清晰。
+	用户数据报套接字UDP:面向无连接，提供不稳定的单项功能。具有更好的效率，但是不能保证数据的正确性。流畅

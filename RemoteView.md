@@ -71,6 +71,9 @@
 	FLAG_UODATE_CURRENT:如果当前描述的PendingInent已经存在，那么他们都会被更新，即他们的Intent中的Extras会被喜欢丞最新的。
 	
 ###6、RemoteViews的意义：
+
+- apply和reApply的区别：apply会加载布局并更新界面。reApply只会更新界面。
+ 
 	比如现在有两个应用，一个应用需要能够更新另外一个应用的某个界面，这个时候一般会选择AIDL去实现，但是如果对界面的更新比较频繁，这个时候就会有效率问题。采用RemoteViews就没有这个问题了，但是其仅支持一些常见的View,对于自定义的View,其是不支持的。
 
 	
