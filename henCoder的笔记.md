@@ -45,3 +45,37 @@
 - setDither(boolean dither):设置图像的抖动效果，目前抖动效果没有那么实用了，如果选择的是16位的，开启比较明显。
 - setFilterBitmap(boolean filter):是否使用双线过滤来绘制Bitmap
 - setPathEffect(PathEffect effect):给图形设置轮廓效果。
+
+##Canvas绘制文字
+
+- Canvas的文字绘制的方法有3个，drawText(),drawTextRun(),drawTextOnPath().
+
+- drawText(String text,float x,float y,Paint paint):x,y是文字左下角的位置坐标,y指的是基线。
+
+- drawTextRun()是加入了两项额外的设置，上下文和文字方向。
+
+- drawTextOnPath():使用的Path,拐弯的地方应该用圆角，别用尖角。drawTextOnPath(String text, Path path, float hOffset, float vOffset, Paint paint)： hOffset 和 vOffset。它们是文字相对于 Path 的水平偏移量和竖直偏移量，利用它们可以调整文字的位置。例如你设置 hOffset 为 5， vOffset 为 10，文字就会右移 5 像素和下移 10 像素。
+
+-StaticLayout:支持换行，不是一个View,也不是一个ViewGroup。是纯粹用来绘制文字的。
+
+	String text1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";  
+	StaticLayout staticLayout1 = new StaticLayout(text1, paint, 600, Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
+	canvas.save();  
+	canvas.translate(50, 100);  
+	staticLayout1.draw(canvas); 
+	canvas.restore();  
+
+	width 是文字区域的宽度，文字到达这个宽度后就会自动换行； 
+	align 是文字的对齐方向； 
+	spacingmult 是行间距的倍数，通常情况下填 1 就好； 
+	spacingadd 是行间距的额外增加值，通常情况下填 0 就好； 
+	includeadd 是指是否在文字上下添加额外的空间，来避免某些过高的字符的绘制出现越界。
+
+- setFakeBoldText(boolean fakeBoldText)为是否显示粗体
+- setStrikeThruText(boolean strikeThruText)是否添加删除线
+- setUnderlineText(boolean underlineText)是否添加下划线
+- setTextSkewX(float skewX)设置文字横向错切角度，其实就是文字倾斜度
+- setTextScaleX(float scaleX):设置文字横向缩放，也就是文字的变胖变瘦问题
+- setLetterSpacing(float letterSpacing)设置字符的间距
+- setTextAlign(Paint.Align align)用来设置文字的对齐方式
+- sethinting(int mode):微调字体
