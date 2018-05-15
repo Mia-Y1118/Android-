@@ -79,3 +79,112 @@
 - setLetterSpacing(float letterSpacing)设置字符的间距
 - setTextAlign(Paint.Align align)用来设置文字的对齐方式
 - sethinting(int mode):微调字体
+
+#对于View的变换:
+##裁剪的使用ClipRect()和ClipPath()
+- clipRect:
+
+		canvas.save();
+		canvas.clipRect(left, top, right, bottom);  
+		canvas.drawBitmap(bitmap, x, y, paint);  
+		canvas.restore();
+
+-clipPath():将Rect替换成Path
+
+##几何变换：
+- 几何变换的使用大概分为三类：
+
+		1、使用Canvas来做常见的二维变换，需要先调用canvas.save(),做完变换之后canvas.restore();
+		2、使用Matrix来做常见和不常见的二维变换
+		3、使用Camera来做三维变换
+
+- Canvas来做变换：
+
+		1、使用Canvas.translate(float dx,float dy)平移
+		2、使用Canvas.rotate(float degrees,float px,float py)旋转：角度，方向是顺时针方向，px和py是轴心的位置
+		3、Canvas,scale(float sx,float sy,float py)放缩：sx和sy是横向和纵向的放缩倍数，px,py是放缩的轴心。
+		4、错切：Canvas.skew(float sx,float sy):sx是x方向的错切系数，sy是y方向的错切系数
+
+- 使用Matrix来做变换：
+
+		1、创建Matrix对象
+		2、调用Matrix的Pre/postTranslate/Rotate/Scale/Skew()方法来设置几何变换
+		3、使用Canvas.setMatrix(matrix)或者Canvas.concat(matrix)来做几何变换用用到Canvas.
+	
+#####把 Matrix 应用到 Canvas 有两个方法： Canvas.setMatrix(matrix) 和 Canvas.concat(matrix)。
+		
+		4、Canvas.setMatrix(matrix)：用 Matrix 直接替换 Canvas 当前的变换矩阵，即抛弃 Canvas 当前的变换，改用 Matrix 的变换（注：根据下面评论里以及我在微信公众号中收到的反馈，不同的系统中  setMatrix(matrix) 的行为可能不一致，所以还是尽量用 concat(matrix) 吧）；
+
+		5、Canvas.concat(matrix)：用 Canvas 当前的变换矩阵和 Matrix 相乘，即基于 Canvas 当前的变换，叠加上 Matrix 中的变换。
+
+- 使用Camera来做三维变换（Camera的三维变换有三类：旋转，平移，移动相机）
+		1、Camera.rotate*():一共有四个方法：rotateX(deg),rotateY(deg),rotateZ(deg),rotate(x,y,z)
+			
+				canvas.save();
+				
+				camera.save(); // 保存 Camera 的状态  
+				camera.rotateX(30); // 旋转 Camera 的三维空间  
+				camera.applyToCanvas(canvas); // 把旋转投影到 Canvas  
+				camera.restore(); // 恢复 Camera 的状态
+				
+				canvas.drawBitmap(bitmap, point1.x, point1.y, paint);  
+				canvas.restore();  
+
+		2、Camera.setLocation(x, y, z) 设置虚拟相机的位置 ：注意！这个方法有点奇葩，它的参数的单位不是像素，而是 inch，英寸。
+
+##属性动画：
+
+- 动画分为两类：（Animation和Transition),其中Animation分为ViewAnimation和Property Animation两类，
+ 
+		ViewAnimation是纯粹的基于Framework的绘制转变。
+		PropertyAnimation:是属性动画，是Android3.0开始引入的新的动画形式。
+		Transition:是在Android中切换界面的动画的效果，其重点在于切换而不是动画。
+
+-ViewPropertyAnimator:
+
+		1、View.animate().translationX(500);
+
+- View 的每个方法都对应了 ViewPropertyAnimator 的两个方法，其中一个是带有 -By 后缀的，例如，View.setTranslationX() 对应了 ViewPropertyAnimator.translationX() 和  ViewPropertyAnimator.translationXBy() 这两个方法。其中带有 -By() 后缀的是增量版本的方法，例如，translationX(100) 表示用动画把 View 的 translationX 值渐变为 100，而 translationXBy(100) 则表示用动画把 View 的 translationX 值渐变地增加 100。
+
+- ObjectAnimator:
+
+	1、如果是自定义控件，需要添加 setter / getter 方法；
+	2、用 ObjectAnimator.ofXXX() 创建 ObjectAnimator 对象；
+	3、用 start() 方法执行动画。
+
+- 属性动画的通用功能：
+	
+		1、setDuration(int duration):设置动画时长
+		
+		// imageView1: 500 毫秒
+		imageView1.animate()  
+        .translationX(500)
+        .setDuration(500);
+
+		// imageView2: 2 秒
+		ObjectAnimator animator = ObjectAnimator.ofFloat(  
+		        imageView2, "translationX", 500);
+		animator.setDuration(2000);  
+		animator.start();  
+
+		2、setInterpolator(Interpolator interpolator)设置Interpolator:速度设置器
+		new AccelerateDecelerateInterpolator():先加速再减速，不设置的时候默认的加速器
+		new LinearInterpolator()线性匀速的
+		new AnticipateOvershootInterpolator():带施法前摇和回弹的Interpolator.
+		new AccelerateInterpolator():持续加速
+		new DecelerateInterpolator():持续减速直到0
+		new AnticipateInterpolator():先拉一下进行正常动画轨迹，再回到原来的位置
+		new OvershootInterpolator():动画超过目标值再弹回一点
+		......
+		还可以进行自定义path的Interpolator();
+
+-给动画设置监听：
+	
+	ViewPropertyAnimator用的是setListener()和setUpdateListener()方法，可以设置一个监听器，要移除监听器时通过setListener(null),setUpdateListener(null)来移除监听
+
+	ObjectAnimator:用的是addListener()和addUpdateListener()来添加一个或者多个监听器，移除监听则是通过removeListener()或者removeUpdateListener()来指定移除的对象
+
+
+	
+
+
