@@ -188,3 +188,8 @@
 	
 
 
+##Property Animation属性动画进阶
+- 针对特殊类型的属性来做属性动画
+	关于ObjectAnimator,ke
+	
+	TypeEvalutor:
