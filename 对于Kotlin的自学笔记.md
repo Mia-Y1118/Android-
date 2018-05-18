@@ -227,7 +227,7 @@
 			    }
 			}
 
--When表达式
+- When表达式
 		When将他的参数和所有分支条件进行顺序比较，直到某个分支满足条件。
 		When类似其他语言的switch操作符：
 		when (x) {
@@ -300,7 +300,7 @@
 
 - 构造器：
 
-	1、Koltin 中的类可以有一个 主构造器，以及一个或多个次构造器，主构造器是类头部的一部分，位于类名称之后:class Person constructor(firstName: String) {}，如果主构造器没有任何注解，也没有任何可见度修饰符，那么constructor关键字可以省略。
+	1、Koltin 中的类可以有一个主构造器，以及一个或多个次构造器，主构造器是类头部的一部分，位于类名称之后:class Person constructor(firstName: String) {}，如果主构造器没有任何注解，也没有任何可见度修饰符，那么constructor关键字可以省略。
 
 	2、Kotlin 中类不能有字段。提供了 Backing Fields(后端变量) 机制,备用字段使用field关键字声明,field 关键词只能用于属性的访问器，如以上实例：
 
@@ -334,3 +334,100 @@
 	        println("FirstName is $firstName")
 	    }
 	}
+
+##六、Kotlin继承：Kotlin中的所有类都继承自Any,它是所有类的超类，对于没有超类型声明的类是默认超类；
+- 如果一个类要被继承，可以使用open关键字进行修饰：
+
+		open class Base(p: Int)           // 定义基类
+		
+		class Derived(p: Int) : Base(p)
+
+##七、Kotlin接口：使用interface关键字定义接口，允许方法有默认的实现。
+		
+		1、interface MyInterface {
+		    fun bar()    // 未实现
+		    fun foo() {  //已实现
+		      // 可选的方法体
+		      println("foo")
+		    }
+		}
+
+		2、实现多个接口的时候用逗号隔开
+
+##八、Kotlin扩展：Kotlin 可以对一个类的属性和方法进行扩展，且不需要继承或使用 Decorator 模式
+
+##九、Kotlin的数据类与密封类：
+- Kotlin可以创建一个只包含数据的类，关键字为data.
+ 
+		data class User(val name: String, val age: Int)
+
+		1、编译器会自动的从主构造函数中根据所有声明的属性提取以下函数：
+		equals() / hashCode()
+		toString() 格式如 "User(name=John, age=42)"
+		componentN() functions 对应于属性，按声明顺序排列
+		copy() 函数
+
+		2、为了保证生成代码的一致性以及由意义，数据类需要满足以下条件：
+		主构造函数至少包含一个参数。
+		所有的主构造函数的参数必须标识为val 或者 var ;
+		数据类不可以声明为 abstract, open, sealed 或者 inner;
+		数据类不能继承其他类 (但是可以实现接口)
+
+##十、Kotlin枚举类
+- 枚举常量用逗号分隔，每个枚举量都是一个对象：
+
+		enum class Color{
+		    RED,BLACK,BLUE,GREEN,WHITE
+		}
+
+- 枚举初始化：
+
+		enum class Color(val rgb: Int) {
+		    RED(0xFF0000),
+		    GREEN(0x00FF00),
+		    BLUE(0x0000FF)
+		}
+
+##十一、Kotlin对象表达式和对象声明：用对象表达式和对象声明来实现创建一个对某个子类做了轻微改动的类的对象，且不需要去声明一个新的子类。
+- 伴生对象可以用companion关键字来判断，这样它就与外部类关联在一起，我们就可以直接通过外部类访问到对象的内部元素。
+		
+		1、class MyClass {
+		    companion object Factory {
+		        fun create(): MyClass = MyClass()
+		    }
+		}
+		
+		val instance = MyClass.create()   // 访问到对象的内部元素
+
+		2、可以省略掉该对象的对象名，然后使用 Companion 替代需要声明的对象名
+		class MyClass {
+		    companion object {
+		    }
+		}
+		
+		val x = MyClass.Companion
+
+##十二、Kotlin委托
+- 类委托：委托传入的Base类的对象来执行这些方法
+
+		// 创建接口
+		interface Base {   
+		    fun print()
+		}
+		
+		// 实现此接口的被委托的类
+		class BaseImpl(val x: Int) : Base {
+		    override fun print() { print(x) }
+		}
+		
+		// 通过关键字 by 建立委托类
+		class Derived(b: Base) : Base by b
+		
+		fun main(args: Array<String>) {
+		    val b = BaseImpl(10)
+		    Derived(b).print() // 输出 10
+		}
+	
+- 属性委托：一个类的某个属性值不是在类中直接进行定义，而是将其委托给一个代理类，从而实现对该类的属性统一管理。
+
+		val/var <属性名>: <类型> by <表达式>
