@@ -18,7 +18,7 @@
 	![](https://i.imgur.com/iTRHq3e.png)
 
 
-# 二、View的工作原理#
+# 二、View的工作原理
 ## 1、ViewRoot
 - View与手机屏幕的关系
 
@@ -37,7 +37,9 @@
 - MeasureSpec:代表一个32位的int值，高两位代表SpecMode，低30位代表SpecSize,是指某种测量模式下的规格大小。
 
 	UNSPECIFIED：父容器不对View有任何的限制，要多大就给多大
+
 	EXACTLY：父容器已经测量出View的精确大小，这个时候View 的最终大小就是SpecSize所指定的值
+
 	AT_MOST：父容器指定了一个可用大小SpecSize,View的大小不能大于这个值
 
 ## 4、LayoutParams：需要和父容器一起才能确定View的MeasureSpec,从而进一步决定View的宽和高。
