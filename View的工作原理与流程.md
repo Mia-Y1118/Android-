@@ -1,5 +1,5 @@
 # 一、View的基础知识 #
-##1、View的基本概念
+## 1、View的基本概念
 - View是所有组件的基类，View本身可以是单个控件也可以是由多个控件组成的一组控件
 ![](https://i.imgur.com/tw276pY.png)
 - 坐标系:
@@ -18,8 +18,8 @@
 	![](https://i.imgur.com/iTRHq3e.png)
 
 
-#二、View的工作原理#
-##1、ViewRoot
+# 二、View的工作原理#
+## 1、ViewRoot
 - View与手机屏幕的关系
 
 	![](https://i.imgur.com/sLvaNNn.png)
@@ -30,24 +30,24 @@
 		layout是用来确定View在父容器中的放置位置，确定View的自重宽/高和四个顶点的位置
 		draw负责将View绘制在屏幕上。
 
-##2、DecorView
+## 2、DecorView
 - DecorView做为顶级View,是一个FrameLayout,其包含两部分，其中一部分为Title,另外一部分为content,在Activity中设置this.setContent时则是设置content的布局。
 
-##3、MeasureSpec:很大程度上决定了一个View的规格尺寸（在测量过程中，系统会将View的LayoutParams根据父容器所施加的规则换成对应的MeasureSpec,然后再根据这个measureSpec来测量View的宽和高。
+## 3、MeasureSpec:很大程度上决定了一个View的规格尺寸（在测量过程中，系统会将View的LayoutParams根据父容器所施加的规则换成对应的MeasureSpec,然后再根据这个measureSpec来测量View的宽和高。
 - MeasureSpec:代表一个32位的int值，高两位代表SpecMode，低30位代表SpecSize,是指某种测量模式下的规格大小。
 
 	UNSPECIFIED：父容器不对View有任何的限制，要多大就给多大
 	EXACTLY：父容器已经测量出View的精确大小，这个时候View 的最终大小就是SpecSize所指定的值
 	AT_MOST：父容器指定了一个可用大小SpecSize,View的大小不能大于这个值
 
-##4、LayoutParams：需要和父容器一起才能确定View的MeasureSpec,从而进一步决定View的宽和高。
+## 4、LayoutParams：需要和父容器一起才能确定View的MeasureSpec,从而进一步决定View的宽和高。
 - LayoutParams.MATCH_PARENT:精确模式，大小就是窗口的大小。
 - LayoutParams.WRAP_CONTENT:最大模式，大小不定，但是不能超过窗口的大小
 - 固定大小：精确模式，大小为LayoutParams中指定的大小。
 
 # 三、View的工作流程： #
 ## 1、measure过程
-###如果是一个原始的View,通过measure方法就可以完成其测量过程。如果是一个ViewGroup,除了完成自己的测量过程外，还会便利去调用整个子元素的measure方法。
+### 如果是一个原始的View,通过measure方法就可以完成其测量过程。如果是一个ViewGroup,除了完成自己的测量过程外，还会便利去调用整个子元素的measure方法。
 
 - ①View的measure过程：在View的measure方法中，会去调用View的onMeasure，并且直接继承View的自定义控件需要重写onMeasure方法并设置wrap_content时的自身大小，否则在布局中使用wrap_content就相当于使用了match_parent.
  
@@ -74,7 +74,7 @@
 - d.绘制装饰（onDrawScrollBars)
 
 
-#四、自定义View的注意事项
+# 四、自定义View的注意事项
 
 - ①让View支持wrap_content
 - ②让View支持Padding:如果不在draw方法中处理Padding,那么Padding属性无法起作用，另外直接继承自ViewGroup的空间需要在onMeasure和onLayout中考虑padding,margin对其造成的影响，不然将导致padding和margin失效。
