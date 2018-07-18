@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ##### 1、Git的作用，与SVN的区别
 
 ①Git是软件版本控制管理系统，其特性是分布式架构，使用于多人不同迭代的协同工作
@@ -7,6 +8,24 @@
 ##### 2、Git的基本命令
 
 ①对于Git的安装，初始化，配置，
+=======
+
+
+##### 1、Git的作用，与SVN的区别
+
+- Git是软件版本控制管理系统，其特性是分布式架构，使用于多人不同迭代的协同工作
+
+- SVN是集中式的版本控制工具，适用于多人对于同一迭代的开发
+
+  
+
+##### 2、Git管理的基本原理
+
+![1531359518791](C:\Users\YANGXI~1\AppData\Local\Temp\1531359518791.png)
+
+##### 3、Git的基本命令
+
+①对于Git的安装，初始化，配置
 
 安装：https://git-scm.com/
 
@@ -17,6 +36,192 @@
 - /.git/config – 特定仓库的设置。
 - ~/.gitconfig – 特定用户的设置。这也是 `--global` 标记的设置项存放的位置。
 - $(prefix)/etc/gitconfig – 系统层面的设置。
+
+
+
+忽略文件：.gitignore,所有想要被忽略的文件单独一行，*字符用作通配符。
+
+------
+
+②保存修改
+
+git add： 将工作目录的变化添加到缓存区
+
+- git add  <filename> ：添加一个文件
+
+- git add <directory>:添加一个文件夹
+
+- git add . = git add --all : 添加当前工作目录的所有更改
+
+  
+
+git commit :将缓存区的变换添加到HEAD提交历史
+
+- git commit -m "<Message>" : message是提交的备注，建议用英文,否则在查看提交历史的时候容易出现乱码。
+
+- git commit -a "<Message>" :可以不用 git add,直接提交到HEAD
+
+- git commit  : 会弹出一个文本编辑器（#是注释，可以通过config修改文件编辑器软件），输入提交备注
+
+  
+
+git status : 查看工作目录和缓存区的状态
+
+
+
+git branch:可以创建，列出，重命名，删除分支。
+
+- git branch :列出仓库中所有分支
+
+- git branch <branch>:创建一个名为<branch>的分支，不会自动切换到那个分支去
+
+- git branch -d <branch>:删除指定分支，这是一个安全的操作，Git会阻止删除包含未合并更改的分支
+
+- git branch -D <branch>:强制删除指定分支
+
+- git branch -m <branch>:将当前分支命名未<branch>
+
+- git checkout -b <new-branch>:创建一个名为<new-branch>的分支，并自动切换到那个分支去
+
+- git checkout -b <new-branch> <existing-branch> :以<existing-branch>为基，创建一个新的分支，并切换到那个新的分支
+
+  
+
+git remote:可以创建，查看，删除和其他仓库之间的连接
+
+- git remote:列出和其他仓库之间的远程连接
+
+- git remote -v : 列出和远程仓库的连接，同事还展示每个连接的URL。
+
+- git remote add <name><url>:创建一个新的远程仓库连接，在添加之后可以将<name>作为<url>来使用
+
+- git remote rm <name>:移除名为得远程仓库的连接
+
+- git remote rename <old-name> <new-name>:将远程连接从<old-name>重命名为<new-name>
+
+  
+
+git fetch:会将远程仓库的提交导入到本地仓库，拉取下来的提交储存为远程分支，而不是普通的本地分支
+
+- git fetch <remote>:拉取仓库中所有的分支，同时会从另一个仓库中下载所有需要的提交和文件。
+
+- git fetch <remote> <branch>:拉取远程仓库特定的分支
+
+- 同步本地仓库和远程仓库事实上是一个分为两部的操作，先fetch,然后再merge。
+
+  
+
+  
+
+git merge:可以将两个branch的代码进行合并。
+
+- git merge <branch>:将指定分支并入当前分支
+- git merge --no-ff <branch>:将指定分支并入当前分支，但总是生成一个合并提交。
+
+git pull :将上游的更改合并到本地仓库。
+
+- git pull <remote>:拉取当前分支对应的远程副本中的更改。
+
+- git pull --rebase <remote>:git rebase用来合并远程和本地分支，而不是git merge,使得合并后的更线性，可以防止merge commits的产生。
+
+  
+
+git push :将本地的仓库中的提交转移到远程仓库中要做的事情，与git fetch 正好相反。
+
+- git push <remote><branch>:将指定的分支推送到<remote>上，包括所有的提交和提交对象。
+
+- git push <remote> --force:强制推送
+
+- git push <remote> --all: 将所有本地分支推送到指定的远程仓库
+
+- git push <remote> --tags:将所有的本地标签推送到远程仓库中去
+
+  
+
+
+
+本地提交推送到中央仓库标准作法: 
+
+​	git fetch origin master
+
+​	git rebase -i origin/master
+
+​	git push origin master
+
+
+
+git log: 查看HEAD的提交历史，超过一屏幕用空格键来滚动，按q退出。
+
+- git log -n <limit>:用limit来限制提交的数量。
+
+- git log --oneline:将每个提交压缩到一行。
+
+- git log --graph --decorate --oneline ： 左边是提交，右边是提交信息
+
+- git log --stat:除了 git log信息之外，还包含哪些文件被更改了
+
+- git log -p:显示每一个提交的差异
+
+  
+
+git checkout :用于检出文件，检出提交，检出分支
+
+- git checkout <commit> <file>:查看文件之前的版本，将工作目录的<file>文件编程<commit>中的那个文件的拷贝，并将其加入缓存区,相当于取消了本次Commit 对于该文件的提交，但是还是缓存区。
+
+- git checkout <commit>:更新工作目录中的所有文件，使得其和某个特定的提交中的文件一致。（即回到某个特定的分支）
+
+  
+
+git revert :用来撤销一个已经提交的快照，其并不是从历史项目中移除这个提交，而是撤销了更改的新提交。可以针对历史中的任何一个提交。（更加安全）
+
+- git revert <commit>：生成了一个撤销了<commit>引入的修改的新提交，然后应用到当前分支。
+
+​    
+
+git reset:回滚一个单独的提交，没有移除后面的提交，然后回到项目之前的状态。后面的提交也需要重新提交一遍。只能从当前提交向前回溯。（比较危险，不要在共享仓库上执行git reset）
+
+- git reset <file>:从缓存区移除特定文件，但是不改变工作目录。（需要再git add 一遍）
+
+- git reset :重新设置缓存区，匹配最近的一次提交，但是工作目录不变。（原来add到缓存区的需要全部再git add 一遍）
+
+- git reset -- hard:重新设置缓存区和工作目录，匹配最新的一次提交。（并且工作目录和缓存区的修改都不存在了，清除了所有未提交的更改）
+
+- git reset <commit>:将当前分支的末端移到<commit>,将缓存区重设到这个提交，但是不改变工作目录。（后面的commit需要再全部git add ,git commit 一次）
+
+- git reset --hard <commit>:将缓存区和工作目录所有的文件都重新设置到这个提交，并且后面的提交以及更改都会被删除。 
+
+  
+
+git clean:将未跟踪的文件从工作目录中移除，但是无法撤销
+
+- git clean -n :查看如果执行git clean ，哪些文件会被移除，而不是真的删除它
+
+- git clean -f : 强制移除当前目录下未被跟踪的文件
+
+- git clean -f <path>:强制移除某个路径下的未被跟踪的文件
+
+- git clean -xf: 移除当前目录下未跟踪的文件，以及Git一般忽略的文件。
+
+  
+
+4、重写项目历史
+
+git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交。
+
+git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息。
+
+
+
+git rebase:变基，将分支移到一个新的基提交的过程，重写了项目历史，主要是为了保持一个线性的项目历史。
+
+- git rebase <base>:<base>可以是任何类型的提交引用（ID，分支名，标签，HEAD等）
+- 不要rebase那些已经推送到公共仓库的提交，rebase会用新的提交替换旧的提交。
+- 
+
+
+
+![1531359412172](C:\Users\YANGXI~1\AppData\Local\Temp\1531359412172.png)
+
 
 
 
