@@ -10,7 +10,11 @@
 
 #### 2、Git管理的基本原理
 
-![1531359518791](C:\Users\YANGXI~1\AppData\Local\Temp\1531359518791.png)
+![pictures](https://github.com/Dammyouh/Android-/blob/master/pictures/1531359518791.png?raw=true)
+
+
+
+
 
 #### 3、Git的安装
 
@@ -46,7 +50,7 @@
 
 - git commit -m "<Message>" : message是提交的备注，建议用英文,否则在查看提交历史的时候容易出现乱码。
 
-- git commit -a "<Message>" :可以不用 git add,直接提交到HEAD
+- git commit -am  "<Message>" :可以不用 git add,直接提交到HEAD
 
 - git commit  : 会弹出一个文本编辑器（#是注释，可以通过config修改文件编辑器软件），输入提交备注
 
@@ -98,7 +102,6 @@
 
   
 
-
 ##### git merge:可以将两个branch的代码进行合并。
 
 - git merge <branch>:将指定分支并入当前分支
@@ -126,7 +129,7 @@
 
   
 
-##### 本地提交推送到中央仓库标准作法: 
+##### 本地提交推送到中央仓库标准作法:
 
 ​	git fetch origin master
 
@@ -182,11 +185,22 @@
 
   
 
+##### git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交。
+
+##### git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息。
+
 ##### git rebase:变基，将分支移到一个新的基提交的过程，主要是为了保持一个线性的项目历史。还可以重写项目历史。
 
 - git rebase <base>:<base>可以是任何类型的提交引用（ID，分支名，标签，HEAD等）
 
-- git rebase -i 
+- git rebase -i <branch>:可以修改branch之后的提交的历史
+
+  - 注意顺序是上面的表示最新的提交在最上面。
+  - 可以通过pick来进行挑选，可以改变顺序来进行pick
+  - 可以通过edit某次提交来进行編輯这次提交，然后rebase停止，可以进行編輯再用git commit --amend进行保存提交，再用git rebase --continue进行继续rebase.
+  - 如果想要删除某次提交，则可以不用pick,或者用drop
+  - 可以用squashing某次提交将本次提交与上一次压制为单一提交
+  - 可以用reword来編輯某次提交的提交信息
 
 - 不要rebase那些已经推送到公共仓库的提交，rebase会用新的提交替换旧的提交。
 
@@ -204,9 +218,7 @@
 
   
 
-##### git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交。
-
-##### git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息。
+##### 
 
 
 
