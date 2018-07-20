@@ -21,7 +21,7 @@ android.app.Fragment是通过FragmentManager fm = getFragment(),并且当前的A
 	静态添加：将Fragment作为一种组件，在布局文件中进行添加，不过要指明android：name,即将Fragment放到这个布局中，这样的话，在静态添加的fragment中就不能实现fragment的切换，替代等。
 	
 	动态添加：需要在布局文件中有一个Fragment的容器。在动态添加的时候，首先需要一个Fragment管理器，即FragmentManager,在android.app.Fragment中直接通过：FragmentManager fm = getFragmentManager(),而在v4的包中需要通过FragmentManager fm = getSupportManager()的形式获取。再在拿到FragmentManager的基础之上，得到FragmentTransication,来对Fragment来做一系列的操作。
-
+	
 	FragmentManager fragmentManager = getFragmentManager(); FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 ## 4、FragmentTransaction里面一些基本方法说明，比如add()/show()
@@ -40,9 +40,9 @@ android.app.Fragment是通过FragmentManager fm = getFragment(),并且当前的A
 	有三个重载的add()方法：
 	
 	add(Fragment,Tag):Tag的作用就是可以通过getFragmentManager.findFragmentByTag的方式来获取一个fragment,然后把它当成一个view来操作。（无UI布局，onCreateView是无效的）
-
+	
 	add(id,Fragment):注意前面的id是一个ViewGroup的id,后面是一个fragment的对象。
-
+	
 	add(id,Fragment,Tag):当Fragment没有UI的时候，可以通过findFragmentByTag来找到这个Fragment,这里不需要在Fragment中写onCreateView的方法，通过add(fragment,Tag)的方式去添加Fragment.
 
 ## 6、FragmentTransaction,一次事务中可以进行多个操作，比较commit()、commitNow()、commitAllowingStateLoss(),区别? ##
@@ -81,7 +81,7 @@ android.app.Fragment是通过FragmentManager fm = getFragment(),并且当前的A
 	可以通过Activity这个中间媒介来实现。在一个Fragment中通过Activity（getActivity()方法来获得Activity的实例）获取到另外一个Fragment,再调用另外一个Fragment的相关方法来实现通信。
 	Fragment向Activity传递数据：
 
-    通过接口的方式，在外部声明一个接口，在Fragment的Attach()的方法中去实例化Listener（该接口强转为activity类型便可和Activity有交际），在Fragment的onCreateView的方法中调用接口中的返回发，并放置相应的参数。接口的实现方法在Activity中来实现，拿到参数做一些与Activity更新界面相关的事情。
+    通过接口的方式，在外部声明一个接口，在Fragment的Attach()的方法中去实例化Listener（该接口强转为activity类型便可和Activity有交际），在Fragment的onCreateView的方法中调用接口中的返回值，并放置相应的参数。接口的实现方法在Activity中来实现，拿到参数做一些与Activity更新界面相关的事情。
 
 - Activity向Fragment中传递数据：
 
@@ -113,7 +113,7 @@ android.app.Fragment是通过FragmentManager fm = getFragment(),并且当前的A
 ## 14、懒加载 ##
 	懒加载的意思就是需要的时候才去加载
 	在ViewPager需要包含多个Fragment的时候，其在第一个Fragment创建的时候，其他的Fragment也相应的创建好了，及走了onAttach,onCreate,onCreateView,onActivityCreate,onStart,,onResume.Fragment的 onResume()表示的是当前Fragment处于可见且可交互状态，但由于ViewPager的缓存机制，它已经失去了意义，也就是打开第一个Fragment，但其实其他的Fragment的数据也都已经加载好了。如果加载数据的操作都比较耗时或者都是类似图片的占用大量内存，这时就应该考虑想想是否该实现懒加载。
-
+	
 	懒加载的实现方式：通过setVisible的方式，当用户对于当前的Fragment可见的时候去加载。如果可见，则再在onCreateView中去请求数据，初始化界面等操作。
 
 ## 15、 setUserVisibleHint调用时机 ##
