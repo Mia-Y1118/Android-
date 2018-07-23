@@ -187,7 +187,7 @@
 
 ##### git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交。
 
-##### git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息。
+##### git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息（重用上次的commit message)。
 
 ##### git rebase:变基，将分支移到一个新的基提交的过程，主要是为了保持一个线性的项目历史。还可以重写项目历史。
 
