@@ -6,9 +6,12 @@
 
 - SVN是集中式的版本控制工具，适用于多人对于同一迭代的开发
 
-  
 
 #### 2、Git管理的基本原理
+
+- 包括了工作目录，暂存区和本地仓库
+- 工作目录就是我们执行命令git init时所在的地方，也就是我们执行一切文件操作的地方，
+- 暂存区和本地仓库都是在.git目录
 
 ![pictures](https://github.com/Dammyouh/Android-/blob/master/pictures/1531359518791.png?raw=true)
 
@@ -24,11 +27,45 @@
 
 初始化：git init --->生成 .git 文件夹，其中存在一些配置文件，用于管理版本控制
 
-配置：分为三级，分别对单个仓库，用户，整个系统设置进行配置，优先级一次下降，如果优先级高的设置了，则以优先级高的设置为准。
+配置：分为三级，分别对单个仓库，用户，整个系统设置进行配置，优先级依次下降，如果优先级高的设置了，则以优先级高的设置为准。
 
 - /.git/config – 特定仓库的设置。
+
 - ~/.gitconfig – 特定用户的设置。这也是 `--global` 标记的设置项存放的位置。
-- $(prefix)/etc/gitconfig – 系统层面的设置。
+
+  ```java
+  git config --global user.name "yxy"
+  git config --global user.email yf-yangxiaoyu@sunlands.com
+  
+  $ git config --list
+  core.symlinks=false
+  core.autocrlf=true
+  core.fscache=true
+  color.diff=auto
+  color.status=auto
+  color.branch=auto
+  color.interactive=true
+  help.format=html
+  rebase.autosquash=true
+  http.sslcainfo=E:/Git/Git/mingw64/ssl/certs/ca-bundle.crt
+  http.sslbackend=openssl
+  diff.astextplain.textconv=astextplain
+  filter.lfs.clean=git-lfs clean -- %f
+  filter.lfs.smudge=git-lfs smudge -- %f
+  filter.lfs.process=git-lfs filter-process
+  filter.lfs.required=true
+  credential.helper=manager
+  user.name=yangxy
+  user.email=yf-yangxiaoyu@sunlands.com
+  
+  配置编辑器：（以后打开git commit --amend,git commit -a ,就会弹出编辑器,可以输入提交信息）
+  git config --global core.editor "'C:\Program Files (x86)\Notepad++\notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+  
+  ```
+
+  
+
+- $(prefix)/etc/gitconfig – 含有对系统上所有用户及所拥有仓库都生效的配置值，全局配置，需要传 git config --system进行配置
 
 忽略文件：.gitignore,所有想要被忽略的文件单独一行，*字符用作通配符。
 
@@ -46,6 +83,10 @@
 
   
 
+##### git status : 查看工作目录和缓存区的状态
+
+
+
 ##### git commit :（提交修改）将缓存区的变换添加到HEAD提交历史
 
 - git commit -m "<Message>" : message是提交的备注，建议用英文,否则在查看提交历史的时候容易出现乱码。
@@ -54,9 +95,29 @@
 
 - git commit  : 会弹出一个文本编辑器（#是注释，可以通过config修改文件编辑器软件），输入提交备注
 
+- git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交，編輯的信息会在原来提交信息的后面。（用与上一个commit相同的commit Id)
+
+- git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息（重用上次的commit message，本次提交没有信息)。（用与上一个commit相同的commit Id)
+
   
 
-##### git status : 查看工作目录和缓存区的状态
+##### git log: 查看HEAD的提交历史
+
+- git log :超过一屏幕用空格键来滚动，按q退出。(包含commit ID,Auther,Date，提交信息)
+
+- git log -n <limit>:用limit来限制提交的数量。（git log -n 3:显示3次commit 信息，-n可以省略)
+
+- git log --oneline:将每个提交压缩到一行(包含commit Id的一部分，commit信息。如果是用amend,则显示第一次的commit信息）。
+
+- git log --graph --decorate --oneline ：（包含：提交的commit 图,commit Id，commit 信息）
+
+- git log --stat:(包含commit ID,Auther,Date，提交信息，哪些文件被更改了）
+
+- git log -p:显示每一个提交的差异(包含commit ID,Auther,Date，提交信息，哪些文件被更改了，修改的具体内容）
+
+  
+
+##### git reflog:可以查看整个的命令历史（commit ,rabase,checkout 等命令）
 
 
 
@@ -64,7 +125,7 @@
 
 - git branch :列出仓库中所有分支
 
-- git branch <branch>:创建一个名为<branch>的分支，不会自动切换到那个分支去
+- git branch <new-branch-name>:以当前branch为基础，创建一个名为<new-branch-name>的分支，不会自动切换到那个分支去
 
 - git branch -d <branch>:删除指定分支，这是一个安全的操作，Git会阻止删除包含未合并更改的分支
 
@@ -139,21 +200,7 @@
 
 
 
-##### git log: 查看HEAD的提交历史，超过一屏幕用空格键来滚动，按q退出。
-
-- git log -n <limit>:用limit来限制提交的数量。
-
-- git log --oneline:将每个提交压缩到一行。
-
-- git log --graph --decorate --oneline ： 左边是提交，右边是提交信息
-
-- git log --stat:除了 git log信息之外，还包含哪些文件被更改了
-
-- git log -p:显示每一个提交的差异
-
-  
-
-##### git reflog:可以查看整个的命令历史
+##### 
 
 
 
@@ -185,10 +232,6 @@
 
   
 
-##### git commit --amend:可以将缓存的修改和之前的提交合并到一起，而不是提交一个全新的提交。
-
-##### git commit --amend --no-edit：--no-edit标记会修复提交但是不提交信息（重用上次的commit message)。
-
 ##### git rebase:变基，将分支移到一个新的基提交的过程，主要是为了保持一个线性的项目历史。还可以重写项目历史。
 
 - git rebase <base>:<base>可以是任何类型的提交引用（ID，分支名，标签，HEAD等）
@@ -218,7 +261,7 @@
 
   
 
-##### 
+
 
 
 
