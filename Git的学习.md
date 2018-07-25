@@ -109,7 +109,7 @@
 
 - git log --oneline:将每个提交压缩到一行(包含commit Id的一部分，commit信息。如果是用amend,则显示第一次的commit信息）。
 
-- git log --graph --decorate --oneline ：（包含：提交的commit 图,commit Id，commit 信息）
+- git log --graph --decorate --oneline ：（包含：提交的commit 演进图,commit Id，commit 信息）
 
 - git log --stat:(包含commit ID,Auther,Date，提交信息，哪些文件被更改了）
 
@@ -125,17 +125,51 @@
 
 - git branch :列出仓库中所有分支
 
-- git branch <new-branch-name>:以当前branch为基础，创建一个名为<new-branch-name>的分支，不会自动切换到那个分支去
+- git branch --list bug/*:会显示所有以bug/开头的分支
+
+- git branch <new-branch-name>:以当前branch为基，创建一个名为<new-branch-name>的分支，不会自动切换到那个分支去
+
+- git branch <new-branch-name> <old-branch-name>/commitId/Tag:以<old-branch-name>/commitId/Tag为基，创建一个名为<new-branch-name>的分支，不会自动切换到那个分支去
 
 - git branch -d <branch>:删除指定分支，这是一个安全的操作，Git会阻止删除包含未合并更改的分支
 
 - git branch -D <branch>:强制删除指定分支
 
-- git branch -m <branch>:将当前分支命名未<branch>
+- git branch -m <oldBranch> <newBranch>:将<oldBranch>重新命名为<newBranch>。（如果没有<oldBranch>,则将当前分支命名为<newBranch>)
 
-- git checkout -b <new-branch>:创建一个名为<new-branch>的分支，并自动切换到那个分支去
+- git checkout -b <new-branch-name>:以当前branch为基础，创建一个名为<new-branch>的分支，并自动切换到那个分支去
 
-- git checkout -b <new-branch> <existing-branch> :以<existing-branch>为基，创建一个新的分支，并切换到那个新的分支
+- git checkout -b <new-branch-name> <old-branch-name> :以<old-branch-name>为基，创建一个新的分支，并切换到那个新的分支。
+
+- git checkout -b <new-branch-name> <old-tag>:以tag名为<old-tag>为基，创建一个新的分支，并切换。
+
+- git checkout -b <new-branch-name> <old-commitId>:以<old-commitId>为基，创建一个新的分支，并切换。
+
+  
+
+##### git pull :将远程的更改合并到本地仓库。
+
+- git pull <remote>:拉取当前分支对应的远程副本中的更改。
+
+- git pull --rebase <remote>:git rebase用来合并远程和本地分支，而不是git merge,使得合并后的更线性，将本地的修改放到远程commit的后面。
+
+  
+
+##### git fetch:会将远程仓库的提交导入到本地仓库，拉取下来的提交储存为远程分支，而不是普通的本地分支
+
+- git fetch <remote>:拉取仓库中所有的分支，同时会存储从远程所有需要的提交和文件，但是本地文件未做改变。
+
+- git fetch <remote> <branch>:拉取远程仓库特定的分支
+
+  
+
+##### git merge:可以将两个branch的代码进行合并。
+
+- git merge <branch>:将指定分支并入当前分支
+
+- git merge <branch> <otherBranch>:将otherBranch合并到branch
+
+- git merge --no-ff <branch>:将指定分支并入当前分支，但总是生成一个合并提交。（3-way-merge)
 
   
 
@@ -143,7 +177,7 @@
 
 - git remote:列出和其他仓库之间的远程连接
 
-- git remote -v : 列出和远程仓库的连接，同事还展示每个连接的URL。
+- git remote -v : 列出和远程仓库的连接，同时还展示每个连接的URL。
 
 - git remote add <name><url>:创建一个新的远程仓库连接，在添加之后可以将<name>作为<url>来使用
 
@@ -151,36 +185,12 @@
 
 - git remote rename <old-name> <new-name>:将远程连接从<old-name>重命名为<new-name>
 
-  
-
-##### git fetch:会将远程仓库的提交导入到本地仓库，拉取下来的提交储存为远程分支，而不是普通的本地分支
-
-- git fetch <remote>:拉取仓库中所有的分支，同时会从另一个仓库中下载所有需要的提交和文件。
-
-- git fetch <remote> <branch>:拉取远程仓库特定的分支
-
-- 同步本地仓库和远程仓库事实上是一个分为两部的操作，先fetch,然后再merge。
-
-  
-
-##### git merge:可以将两个branch的代码进行合并。
-
-- git merge <branch>:将指定分支并入当前分支
-- git merge --no-ff <branch>:将指定分支并入当前分支，但总是生成一个合并提交。
 
 
-
-##### git pull :将上游的更改合并到本地仓库。
-
-- git pull <remote>:拉取当前分支对应的远程副本中的更改。
-
-- git pull --rebase <remote>:git rebase用来合并远程和本地分支，而不是git merge,使得合并后的更线性，可以防止merge commits的产生。
-
-  
 
 ##### git push :将本地的仓库中的提交转移到远程仓库中要做的事情，与git fetch 正好相反。
 
-- git push <remote><branch>:将指定的分支推送到<remote>上，包括所有的提交和提交对象。
+- git push <remote><branch>:将指定的分支推送到<remote>上。
 
 - git push <remote> --force:强制推送
 
@@ -200,35 +210,38 @@
 
 
 
-##### 
-
-
-
 ##### git checkout :用于检出文件，检出提交，检出分支
 
-- git checkout <commit> <file>:查看文件之前的版本，将工作目录的<file>文件编程<commit>中的那个文件的拷贝，并将其加入缓存区,相当于取消了本次Commit 对于该文件的提交，但是还是缓存区。
+- git checkout <commit> <file>:查看文件之前的版本，将工作目录的<file>文件变成与<commit>中的那个文件一致，并将其加入缓存区，仅需要执行git commit 进行提交。
 
-- git checkout <commit>:更新工作目录中的所有文件，使得其和某个特定的提交中的文件一致。（即回到某个特定的分支）
+- git checkout <commit>:更新工作目录中的所有文件，使得其和某个特定的提交中的文件一致，即回到某个特定的分支。但是当前会变成detached HEAD，即将HEAD 指向该commit节点，形成游离的HEAD的状态。用git status查看没有变化。
+
+- git checkout <commit> . :不会更改HEAD的状态，当切换到commit节点后，用git status查看会有变化。
 
   
 
 ##### git revert :用来撤销一个已经提交的快照，其并不是从历史项目中移除这个提交，而是撤销了更改的新提交。可以针对历史中的任何一个提交。（更加安全）
 
-- git revert <commit>：生成了一个撤销了<commit>引入的修改的新提交，然后应用到当前分支。
+- git revert <commit>：生成了一个撤销了<commit>引入的修改的新提交,即生成新的commitId，然后应用到当前分支。
+- git revert 遇到冲突后：①放弃revert：git revert --abort    ②解决冲突，git add后，继续revert: git revert --continue
 
 ​    
 
 ##### git reset:回滚一个单独的提交，没有移除后面的提交，然后回到项目之前的状态。后面的提交也需要重新提交一遍。只能从当前提交向前回溯。（比较危险，不要在共享仓库上执行git reset）
 
-- git reset <file>:从缓存区移除特定文件，但是不改变工作目录。（需要再git add 一遍）
+- git reset <file>:对于已经add的文件，执行该命令之后，从缓存区移除该文件，但是不改变工作目录。（需要再git add 一遍）
 
-- git reset :重新设置缓存区，匹配最近的一次提交，但是工作目录不变。（原来add到缓存区的需要全部再git add 一遍）
+- git reset :对于已经add的多个文件，从缓存区移除，重新设置缓存区（原来add到缓存区的需要全部再git add 一遍）
 
 - git reset -- hard:重新设置缓存区和工作目录，匹配最新的一次提交。（并且工作目录和缓存区的修改都不存在了，清除了所有未提交的更改）
 
-- git reset <commit>:将当前分支的末端移到<commit>,将缓存区重设到这个提交，但是不改变工作目录。（后面的commit需要再全部git add ,git commit 一次）
+- git reset --soft:
 
-- git reset --hard <commit>:将缓存区和工作目录所有的文件都重新设置到这个提交，并且后面的提交以及更改都会被删除。 
+- git reset --默认：
+
+- git reset <commit>:将当前分支的末端移到<commit>,将缓存区重设到这个提交，其后面的提交信息没有了，但是不改变工作目录。（后面的commit需要再全部git add ,git commit 一次）
+
+- git reset --hard <commit>:将缓存区和工作目录所有的文件都重新设置到这个提交，并且后面的提交以及更改都会被删除(危险）。 
 
   
 
