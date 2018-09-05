@@ -67,15 +67,30 @@ if(!fragmentA.isAdded()){ FragmentManager manager = ((FragmentActivity)context).
 
 解决方案：
 
-可以使用setter和getter方法进行数据的存储和获取。  
+可以使用setter和getter方法进行数据的存储和获取。  
 
  
 
+异常5：
+
+### [java.lang.IllegalStateException](https://bugly.qq.com/v2/crash-reporting/crashes/1104528778/151596?pid=1) Fragment GroupWorkFragment{ce55c91} not attached to a context. 
+
+原因：由于Fragment还没有Attach到Activity时，调用了如getResourses().getString(R.string.)
+
+解决方案：在getResources之前添加一个isAdded的判断。
 
 
-2、注意空指针异常，做好防御性编程
 
-##### 3、
+### 2、注意空指针异常，做好防御性编程
+
+### 3、Kotlin的相关bug
+
+- 在使用Adapter,Dialog等，在findId的时候需要通过ItemView来find。
+- 在使用DialogFragment的时候，最外层布局的宽度一定要match_parent,并且最外层设置为透明色，并且设置Gravity为center..
 
 
 
+### 4、RecyclerView的notifyDataSetChanged()
+
+- 在List指向的不是一个引用的时候不是一个使用notifysetchanged没用。
+- 为防止RecyclerView的notifyDataSetChanged()没用的情况，最好在adapter中使用notifyDataSetChanged()。

@@ -1,4 +1,5 @@
-##一、ImageView的scaleType:
+##### 一、ImageView的scaleType:
+
 - matrix:表示原图从ImageView的左上角绘制，如果原图大于ImageView,那么多余的部分则裁剪掉，如果原图小于ImageView，那么对原图不做任何处理。
 
 - fitXY：将图片按比例放至View的宽度或者高度(取宽和高的最小值），然后居上或者居左显示。
