@@ -81,6 +81,16 @@ if(!fragmentA.isAdded()){ FragmentManager manager = ((FragmentActivity)context).
 
 
 
+异常6： 
+
+#### java.lang.IllegalStateException：Can not perform this action after onSaveInstanceState
+
+原因：在关闭dialogFragment的时候，有可能dialogFragment已经执行了onSaveInstanceState.
+
+解决方案：在关闭dialogFragment的时候，尽量使用dissmissAllowingStateLoss.
+
+
+
 ### 2、注意空指针异常，做好防御性编程
 
 ### 3、Kotlin的相关bug
