@@ -15,7 +15,7 @@
 2、终极划分：
 
 	[scheme:][//host:port][path][?query][#fragment]  
-	
+
 3、举例：
 
 	http://www.java2s.com:8080/yourpath/fileName.htm?stove=10&path=32&id=4#harvic  
@@ -30,7 +30,7 @@
 4、代码的提取：
 
 	http://www.java2s.com:8080/yourpath/fileName.htm?stove=10&path=32&id=4#harvic
-
+	
 	①getScheme:获取Uri中的Scheme字符串的部分，即http
 	②getSchemeSpecificPart:获取Uri中的scheme-specific-part部分，即//www.java2s.com:8080/yourpath/fileName.htm?
 	③getAuthority:获取Uri中的Authority中的部分，即www.java2s.com:8080
@@ -52,22 +52,22 @@
 5、使用getQueryParameterNames(),将键值对存入hashMap:
 
 	 public static Map<String, String> getAndroidParamsByLinkUrl(String url) {
-        Map<String, String> params = new HashMap<>();
-        if (isLegallUrl(url)) {
-            String androidRouterUrl = extractAndroidRouterUrl(url);
-
-            if (!TextUtils.isEmpty(androidRouterUrl)) {
-
-                Uri uri = Uri.parse(FAKE_HEADER + androidRouterUrl);
-
-                for (String item : uri.getQueryParameterNames()) {
-                    params.put(item, uri.getQueryParameter(item));
-                }
-            }
-
-        }
-        return params;
-    }	
+	    Map<String, String> params = new HashMap<>();
+	    if (isLegallUrl(url)) {
+	        String androidRouterUrl = extractAndroidRouterUrl(url);
+	
+	        if (!TextUtils.isEmpty(androidRouterUrl)) {
+	
+	            Uri uri = Uri.parse(FAKE_HEADER + androidRouterUrl);
+	
+	            for (String item : uri.getQueryParameterNames()) {
+	                params.put(item, uri.getQueryParameter(item));
+	            }
+	        }
+	
+	    }
+	    return params;
+	}	
 
 
 ###三、判断一个输入的字符串是否为整数（使用正则表达式）：
