@@ -97,10 +97,11 @@ if(!fragmentA.isAdded()){ FragmentManager manager = ((FragmentActivity)context).
 
 - 在使用Adapter,Dialog等，在findId的时候需要通过ItemView来find。
 - 在使用DialogFragment的时候，最外层布局的宽度一定要match_parent,并且最外层设置为透明色，并且设置Gravity为center..
-
-
+- 注意在使用Kotlin的时候，在使用从Intent中获取数据的时候，从而命名变量的时候需要考虑为空的情况。 
 
 ### 4、RecyclerView的notifyDataSetChanged()
 
 - 在List指向的不是一个引用的时候不是一个使用notifysetchanged没用。
 - 为防止RecyclerView的notifyDataSetChanged()没用的情况，最好在adapter中使用notifyDataSetChanged()。
+- 在数据源发生改变的时候，需要notifyDataSetChanged
+
