@@ -99,10 +99,21 @@ public boolean isChildSelectable(int groupPosition, int childPosition) {
 ```
 
 3、对于ExpandableListView的部分属性总结：
+
+```java
 	①divider:这个属性用来设置父类之间的分割线样式。
+
 	②childDicider:这个属性用来设置同一个父项下，子类之间的分割线。
+
 	android:childDivider="@color/colorPrimary"
+
 	android:dividerHeight="3dp"
+    
+    //设置默认展开第几个子View
+    list.setAdapter(new Adapter())
+    list.expandGroup(0)//默认展开第一个课程目录
+
+```
 
 ### 二、注意在嵌套ScorllView的时候，会出现显示不全的问题，需要自定义ExpandableListView,并重写onMeasure方法）
 
