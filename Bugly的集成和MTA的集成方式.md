@@ -7,13 +7,13 @@
 		 compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
 
 		2、同时集成sdk和ndk:
-
+	
 		android {
    		 defaultConfig {
-        	ndk {
-            // 设置支持的SO库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-       			 }
+   	 	ndk {
+   	     // 设置支持的SO库架构
+   	     abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+   				 }
     		}
 		}
 
@@ -35,7 +35,7 @@
 		-keep public class com.tencent.bugly.**{*;}
 
 - 在Application中初始化：
-   
+  
            private void initBugly() {
             CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
             strategy.setAppChannel(Utils.getChannel(this));
@@ -47,7 +47,7 @@
                 CrashReport.initCrashReport(getApplicationContext(), "b92fea1379", false, strategy);
             }
             CrashReport.setUserId("1995");
-  		  }
+      	  }
 
 #二、MTA的集成：
 - 有自动集成（jcenter)和手动接入的方式，一般选择jcenter的方式
@@ -61,7 +61,7 @@
 		abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
 		// 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
 		}
-
+	
 		manifestPlaceholders = [
 		MTA_APPKEY:"注册应用的appkey",
 		MTA_CHANNEL:"渠道名称"
@@ -70,15 +70,16 @@
 
 
 		// mta包稳定版和测试版本二选一，mid包必须要添加 ，可视化埋点根据需要添加
-
+	
 		//mta 3.3 稳定版
 		compile 'com.qq.mta:mta:3.3.1-release'
 		//mid  jar包 必须添加
 		compile 'com.tencent.mid:mid:3.73-release'
 		//可视化埋点的相关jar包 （根据需要添加），可视化埋点的版本号，和必须和当前MTA的版本号必须匹配使用 需要在配置文件中增加配置，具体请参考 高级功能中可视化埋点的接入。
 		compile 'com.qq.visual:visual:3.3.1-release'
-		
-		
+
+
+​		
 		//MTA 3.4.0 beta 版本
 		
 		compile 'com.qq.mta:mta:3.4.0.1-beta'
