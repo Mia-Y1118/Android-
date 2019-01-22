@@ -39,16 +39,30 @@
 
 - 从下到上：
 
-  ```ja
+  ```java
   <style name="shareDialogTheme" parent="android:Theme.Dialog">
+     		<!-- dialog是否有边框 -->
           <item name="android:windowFrame">@null</item>
+          
+          <!-- dialog是否全屏 -->
           <item name="android:windowFullscreen">true</item>
+          
+          <!-- 窗体是否有标题 -->
           <item name="android:windowNoTitle">true</item>
+          
+           <!-- 窗体的背景 -->
           <item name="android:windowBackground">@android:color/transparent</item>
+          
+           <!-- 窗体切换时的动画样式 -->
           <item name="android:windowAnimationStyle">@style/mystyle</item>
+          
+          <!-- 窗体是否浮在下层之上 -->
           <item name="android:windowIsFloating">true</item>
+          
+          <!-- 背景蒙层，true时表示有默认的灰色蒙层，为false时没有灰色蒙层 -->
           <item name="android:backgroundDimEnabled">true</item>
-          <!-- 背景有灰度 -->
+          
+          <!-- 设置窗体内容背景-->
           <item name="android:windowContentOverlay">@null</item>
       </style>
       
