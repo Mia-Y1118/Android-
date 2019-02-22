@@ -55,7 +55,7 @@
 
 - 操作需要检查的应用程序，使用Android Studio自带的Memory Monitor生成操作过程中的hprof文件
 
-![image-20190214165452410](/Users/yangxiaoyu/Desktop/Android-/pictures/内存泄漏总结图片/image-20190214165452410.png)
+![image-20190214165452410](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/image-20190214165452410.png)
 
 - 运用sdk中的platform-tools中的hprof-conv工具，将Android Studio 生成的hprof转换成一个标准格式的hprof文件
 
@@ -106,25 +106,25 @@ public class BaseApplication extends Application {
 
 ##### 1、单例出现的内存泄漏
 
-![leakCanary_list](/Users/yangxiaoyu/Desktop/Android-/pictures/leakCanary_list.jpg)
+![leakCanary_list](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/leakCanary_list.jpg)
 
-![leakCanary_launchActivity](/Users/yangxiaoyu/Desktop/Android-/pictures/leakCanary_launchActivity.jpg)
+![leakCanary_launchActivity](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/leakCanary_launchActivity.jpg)
 
-![项目内存中内存泄漏VipInfoModel](/Users/yangxiaoyu/Desktop/Android-/pictures/项目内存中内存泄漏VipInfoModel.jpg)
+![项目内存中内存泄漏VipInfoModel](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/%E9%A1%B9%E7%9B%AE%E5%86%85%E5%AD%98%E4%B8%AD%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8FVipInfoModel.jpg)
 
-![项目中内存泄漏_launchActivity](/Users/yangxiaoyu/Desktop/Android-/pictures/项目中内存泄漏_launchActivity.jpg)
+![项目中内存泄漏_launchActivity](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F_launchActivity.jpg)
 
 
 
 ##### 2、Timer可能导致的内存泄漏
 
-![Mat_NewVideoFloatFragment](/Users/yangxiaoyu/Desktop/Android-/pictures/Mat_NewVideoFloatFragment.png)
+![Mat_NewVideoFloatFragment](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/Mat_NewVideoFloatFragment.png)
 
-![MAT_NewFloatView_section](/Users/yangxiaoyu/Desktop/Android-/pictures/MAT_NewFloatView_section.jpeg)
+![MAT_NewFloatView_section](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/MAT_NewFloatView_section.jpeg)
 
 ![MAT_NewFloatFragment_root](/Users/yangxiaoyu/Desktop/Android-/pictures/MAT_NewFloatFragment_root.png)
 
-![code_NewVideoFloat_gc](/Users/yangxiaoyu/Desktop/Android-/pictures/code_NewVideoFloat_gc.png)
+![code_NewVideoFloat_gc](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/code_NewVideoFloat_gc.png)
 
 - 原因：TimerTask对象在和Timer的schedule()方法配合使用的时候极容易造成内存泄露。这里内存泄漏在于Timer和TimerTask没有进行Cancel，从而导致Timer和TimerTask一直引用外部类Activity。
 - 解决方案：在Fragment的onDetach()或者Activity的onDestroy()时进行Time和TimerTask的释放
