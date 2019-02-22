@@ -51,11 +51,11 @@
 
 ### 二、内存泄漏分析工具
 
-##### 1、MAT
+##### 1、MAT（Memory Analyzer Tool)
 
-- 操作需要检查的应用程序，使用Android Studio自带的Memory Monitor生成操作过程中的hpof文件
+- 操作需要检查的应用程序，使用Android Studio自带的Memory Monitor生成操作过程中的hprof文件
 
-![image-20190214165452410](/Users/yangxiaoyu/Library/Application Support/typora-user-images/image-20190214165452410.png)
+![image-20190214165452410](/Users/yangxiaoyu/Desktop/Android-/pictures/内存泄漏总结图片/image-20190214165452410.png)
 
 - 运用sdk中的platform-tools中的hprof-conv工具，将Android Studio 生成的hprof转换成一个标准格式的hprof文件
 
@@ -77,6 +77,28 @@ hprof-conv [-z] <infile> <outfile>
   
 
 ##### 2、Leak Canary(https://github.com/square/leakcanary)
+
+```java
+//导入第三方库
+dependencies {
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+  releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+}
+
+//进行注册
+public class BaseApplication extends Application {
+
+  @Override public void onCreate() {
+    super.onCreate();
+    if (LeakCanary.isInAnalyzerProcess(this)) {
+      // This process is dedicated to LeakCanary for heap analysis.
+      // You should not init your app in this process.
+      return;
+    }
+    LeakCanary.install(this);
+  }
+}
+```
 
 
 
