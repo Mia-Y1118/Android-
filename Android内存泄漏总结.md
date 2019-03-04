@@ -110,9 +110,9 @@ public class BaseApplication extends Application {
 
 ![leakCanary_launchActivity](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/leakCanary_launchActivity.jpg)
 
-![项目内存中内存泄漏VipInfoModel](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/%E9%A1%B9%E7%9B%AE%E5%86%85%E5%AD%98%E4%B8%AD%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8FVipInfoModel.jpg)
+![项目内存中内存泄漏VipInfoModel](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/leak_vipModel.jpg)
 
-![项目中内存泄漏_launchActivity](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F_launchActivity.jpg)
+![项目中内存泄漏_launchActivity](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/leak_launchActivity.jpg)
 
 
 
@@ -122,7 +122,7 @@ public class BaseApplication extends Application {
 
 ![MAT_NewFloatView_section](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/MAT_NewFloatView_section.jpeg)
 
-![MAT_NewFloatFragment_root](/Users/yangxiaoyu/Desktop/Android-/pictures/MAT_NewFloatFragment_root.png)
+![MAT_NewFloatFragment_root](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/MAT_NewFloatFragment_root.png)
 
 ![code_NewVideoFloat_gc](https://raw.githubusercontent.com/Dammyouh/Android-/master/pictures/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93%E5%9B%BE%E7%89%87/code_NewVideoFloat_gc.png)
 
