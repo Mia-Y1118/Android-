@@ -5,7 +5,9 @@
 - ##### startService
 
 ```java
-//onCreate()只会在Service第一次创建的时候调用，如果当前Service已经被创建过了，不管怎么调用startService(),onCreate()方法都不会再执行，但是会执行onStartCommand()  
+//onCreate()只会在Service第一次创建的时候调用，如果当前Service已经被创建过了，不管怎么调用startService(),onCreate()方法都不会再执行，但是会执行onStartCommand()
+
+//无论启动了多少次Service,只要调用一次StopService就可以停掉Service
 
 //onStart() 已经被废弃
 onCreate() --> onStartCommand --> Running --> onDestroy()
