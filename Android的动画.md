@@ -105,6 +105,12 @@ ObjectAnimator:还可以根据Path路径做动画.第一个是做动画的控件
     animator.setRepeatCount(1);
     animator.setRepeatMode(ValueAnimator.REVERSE);
     animator.start();
+
+    //注意：终点位置减去起点位置如果为正数，则是向下的属性动画。如果为负数则是向上的属性动画。
+    Animator animator = ObjectAnimator.ofFloat(iv_contribute, "translationY", 0, -7);
+    animator.setDuration(500);
+    animator.start();
+     
     
     
 Interpolator(插值器)：用来控制动画过程的变化速率，没有他的动画将会一直匀速变化。
