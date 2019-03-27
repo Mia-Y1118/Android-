@@ -91,6 +91,14 @@ if(!fragmentA.isAdded()){ FragmentManager manager = ((FragmentActivity)context).
 
 
 
+异常7：
+
+#### Attempt to invoke virtual method 'void androidx.fragment.app.Fragment.setMenuVisibility(boolean)' on a null object reference
+
+原因：在Fragment的Adapter中，getItem如果返回了空的Fragment,就会报这个错误。
+
+
+
 ### 2、注意空指针异常，做好防御性编程
 
 ### 3、Kotlin的相关bug
