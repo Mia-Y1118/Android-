@@ -213,4 +213,7 @@ fragments.add(masteryFragment)
 #### 三、注意事项
 
 - 在tabLayout与ViewPager建立关联的之后，ViewPager中的fragment改变或者fragments的数量与tabLayout的数量不对应，可能会造成tabLayout不显示。
+
 - 如果涉及接口，一般需要在接口请求回来再去初始化ViewPager、Fragment和tabLayout.
+
+  
