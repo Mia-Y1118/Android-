@@ -274,6 +274,21 @@
 
   
 
+#### 5、常遇问题
+
+```java
+//某个commit被closed
+ ! [remote rejected]       head -> refs/for/zhibojian (change http://172.16.117.224:800/72366 closed)
+error: failed to push some refs to 'ssh://yf-yangxiaoyu@172.16.117.224:29418/usercenter'
+                                                       
+//解决方案：
+①使用git log 看一下是那个commit被closed,找到该commit的commitId
+②使用git reset commitId
+③git status 看一下所有的改动，再重新提交
+```
+
+
+
 
 
 
