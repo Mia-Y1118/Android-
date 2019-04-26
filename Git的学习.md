@@ -282,9 +282,15 @@
 error: failed to push some refs to 'ssh://yf-yangxiaoyu@172.16.117.224:29418/usercenter'
                                                        
 //解决方案：
+//1、仅仅限于revert到的commit之后都是自己的提交，否则会把别人写的给revert
 ①使用git log 看一下是那个commit被closed,找到该commit的commitId
 ②使用git reset commitId
 ③git status 看一下所有的改动，再重新提交
+
+//2、使用git -patch
+①通过VersionControl 查看commit 信息
+②将需要提交到另外一个分支的代码进行git patch(右键git patch,生成补丁文件)
+③切换到另外一个分支，VCS-->apply Patch的方式将补丁文件选中并应用。
 ```
 
 
