@@ -260,6 +260,20 @@
 
 - 不要rebase那些已经推送到公共仓库的提交，rebase会用新的提交替换旧的提交。
 
+- git rebase -i commit :
+
+  ```java
+  pick : 使用提交(保留提交，不做修改)
+  reword: 使用提交，但是需要编辑提交的日志消息
+  edit:使用提交，但停下来修改(就是要修改提交的内容)
+  squash :使用提交，但融入此前的提交(就是在此之前的一个提交合并)
+  fixup: 类似于squash,但是丢弃此提交的日志消息
+  drop:删除提交
+  
+  ```
+  
+  
+  
   
 
 ##### git clean:将未跟踪的文件从工作目录中移除，但是无法撤销
@@ -291,6 +305,13 @@ error: failed to push some refs to 'ssh://yf-yangxiaoyu@172.16.117.224:29418/use
 ①通过VersionControl 查看commit 信息
 ②将需要提交到另外一个分支的代码进行git patch(右键git patch,生成补丁文件)
 ③切换到另外一个分支，VCS-->apply Patch的方式将补丁文件选中并应用。
+
+//3、进行变基处理
+①使用git log看一下commit记录，对应找到被closed的commit.
+②使用git rebase -i commitId,注意这里的commitId是被closed的commit的前一个提交记录
+③按照提交顺序将别人的commit pick到自己的提交之前，如果需要一次性修改自己的commit,可以通过squash进行自己commit的合并，否则需要每一个commit都需要git rebase --continue，再编辑提交信息.
+                                                       
+
 ```
 
 

@@ -46,34 +46,24 @@
 
   
 
-### 三、键盘弹出的问题
+### 三、RecyclerView嵌套时点击事件
 
-1、键盘的弹出位置从底部弹出，有可能会出现弹出的键盘挡住了EditText
+- 现象：
 
-- 解决办法： 在键盘弹出的时候，将View 向下滑动一定的距离。可以通过以下方法获取键盘弹出的高度
+  ```java
+  当两个RecyclerView嵌套使用时，如果需要设置外层RecyclerView的item的点击事件，由于内层recyclerView在外层item之上，所以点击内层的recyclerView无法响应点击事件。只有点击内层recyclerView外，外层recyclerView的item内区域才能响应点击事件
+  ```
 
-```java
- private fun getKeyBoardHeight(){
-      SoftKeyBoardListener.setListener(act,object : SoftKeyBoardListener.OnSoftKeyBoardChangeListener{
-          override fun keyBoardHide(height: Int) {
+- 解决办法：将内层recyclerView的点击事件转移到外层
 
-          }
+  ```java
+   //设置内层RecyclerView的touch到外层
+  itemView.rv_list.setOnTouchListener(object : View.OnTouchListener {
+                  override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                      return itemView.onTouchEvent(event)
+                  }
+              })
+  ```
 
-          override fun keyBoardShow(height: Int) {
-              Log.d("yxy", "键盘的高度为$height")
-                  //必须放到两外一个线程去执行，否则可能会造成卡顿
-              Handler().postDelayed({
-                  sv_nps.isSmoothScrollingEnabled = true
-                  sv_nps.smoothScrollBy(0,1920)
-              },10)
-          }
-      })
-
-  }
-```
-
-2、对于ScrollView的滑动(Android 的View试图是没有边界的，Canvas是没有边界的。布局坐标：父视图给子视图分配布局的大小，有边界)
-
-- scrollTo（int x ,int y):将当前的视图内容偏移致（x,y)坐标出，即将View滑动到（x,y)的坐标处。
-- scrollBy（int x,int y):将当前的View再滑动x,y这么长的偏移量。
+  
 

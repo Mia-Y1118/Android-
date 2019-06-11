@@ -11,7 +11,7 @@
 
 		2、群头像：
 		http://store.sunlands.com/small/20170612/1497251272793.jpg
-
+	
 		3、题库PK的擂主的头像：
 		http://static.sunlands.com/user_center_test/newUserImagePath/705981/705981.jpg
 
