@@ -217,3 +217,4 @@ fragments.add(masteryFragment)
 - 如果涉及接口，一般需要在接口请求回来再去初始化ViewPager、Fragment和tabLayout.
 
   
+

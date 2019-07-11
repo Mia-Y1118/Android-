@@ -37,7 +37,7 @@
 #### 四、注意事项：
 
 - 当TabLayout放在AppBarLaylout中时，会显示一个默认的阴影。需要用app:elevation = "0dp"。而不是android:elevation = "0dp"
-- 使用CooedinatorLayout的时候注意设置其高度为match_parent,如果设置为wrap_content,会出现toolbar有多高，下面就会留出多高的距离。
+- 使用CoordinatorLayout的时候注意设置其高度为match_parent,如果设置为wrap_content,会出现toolbar有多高，下面就会留出多高的距离。
 
 #### 五、项目中使用的CoordinatorLayout
 
