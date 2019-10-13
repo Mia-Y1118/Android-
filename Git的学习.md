@@ -171,6 +171,8 @@
 
 - git merge --no-ff <branch>:将指定分支并入当前分支，但总是生成一个合并提交。（3-way-merge)
 
+- git merge —squash <branch>:将branch分支的新代码合到当前分支，并需要再提交一遍
+
   
 
 ##### git remote:可以创建，查看，删除和其他仓库之间的连接
