@@ -1,6 +1,12 @@
 #### 一、TabLayout的属性
 
 ```java
+//注意如果需要设置tab间距，则需要设置先设置tabmaxWidth和minWidth,否则不启作用
+app:tabMaxWidth="126dp"
+app:tabMinWidth="115dp"
+app:tabPaddingEnd="@dimen/dimen0"
+app:tabPaddingStart="@dimen/dimen0"
+
 //需要在build.gradle中导入包后才能使用
 app:tabBackground="@color/transparent"  //设置Tabs的背景
 app:tabIndicatorHeight="0dp"//下面指示器的高度，Material Design 规范建议是2dp

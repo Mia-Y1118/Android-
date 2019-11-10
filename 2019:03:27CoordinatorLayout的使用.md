@@ -2,6 +2,7 @@
 
 - 是material design中的组件，用来协调其子View并以触摸影响布局的形式产生动画效果的一个FragmentLayout.
 
+
 #### 二、AppBarLayout
 
 - 是一个实现了很多材料设计特性的垂直的LinearLayout.必须在子View(如CollapsingToolbarLayout)上设置app:layout_scrollFlags属性或者代码中setScrollFlags()设置这个属性。

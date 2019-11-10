@@ -292,6 +292,8 @@
 
 #### 5、常遇问题
 
+- 某个commit被closed
+
 ```java
 //某个commit被closed
  ! [remote rejected]       head -> refs/for/zhibojian (change http://172.16.117.224:800/72366 closed)
@@ -316,7 +318,19 @@ error: failed to push some refs to 'ssh://yf-yangxiaoyu@172.16.117.224:29418/use
 
 ```
 
+- 将一个commit 分成两个commit 
 
+  ```jade
+  1、使用git log,找到需要分解的commit(commit Id)
+  2、git rebase -i commitId: 会弹出一个编辑框，将需要分解的commitId 由pick 变成edit，保存退出
+  3、git reset HEAD^ :回到目前commit
+  4、git add ,git commit ,分次add,分次提交
+  5、git rebase --continue :继续rebase 这些提交才会生效
+  ```
+
+  
+
+  
 
 
 
