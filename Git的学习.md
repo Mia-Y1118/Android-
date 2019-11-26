@@ -249,6 +249,8 @@
 
 ##### git rebase:变基，将分支移到一个新的基提交的过程，主要是为了保持一个线性的项目历史。还可以重写项目历史。
 
+- git rebase <branch>:合入某个分支，将本地的修改用作第一个
+
 - git rebase <base>:<base>可以是任何类型的提交引用（ID，分支名，标签，HEAD等）
 
 - git rebase -i <branch>:可以修改branch之后的提交的历史
