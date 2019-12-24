@@ -29,7 +29,7 @@ Lifecycler的优点：
 
 #### 2、LiveData
 
-```java
+```kotlin
 LiveData:可以实现当用户执行某正操作或服务器数据发生改变后，重新获取数据再次刷新界面的UI。解决了数据显示和刷		   新的问题。
 
 LiveData刷新的使用：创建LiveData实例后，为可观察的数据添加观察者，在数据改变时会自动回调观察者。
@@ -44,6 +44,24 @@ LiveData的几点注意事项：
 	①一个具有生命周期感知特性的可观察的数据保持类，使用LiveData保存数据时，在每次订阅或数据更新时会自动回调	设置的观察者从而更新数据，真正的实现了数据驱动的效果
 	②LiveData 认为观察者的生命周期处于STARTED状态或RESUMED状态下，表示观察者处于活动状态，LiveData只通知	  活跃的观察者关于更新
 	③LiveData会在活动处于Destroy时释放观察者，所以开发者无需特别处理
+	
+	
+LiveData的转换：Transformations
+- Transformations.map() : 如果只需要知道变化用户的名字，那么只要观察userName这个LiveData对象即可。它会从userLiveData数据中提取用户名并传递给它自己的观察者(从大的观察者转移到小的观察者)
+
+ val userLiveData : LiveData<User> 
+ val userName : LiveData<String> = Transformations.map(userLiveData, Function { 
+        it.name + "" + it.lastName
+    })
+
+- Transformations.switchMap()：传递个switchMap()的方法必须返回一个LiveData对象
+private LiveData<User> getUser(String id) {
+  ...;
+}
+
+LiveData<String> userId = ...;
+LiveData<User> user = Transformations.switchMap(userId, id -> getUser(id) );
+
 ```
 
 3、ViewModel:在活动重建时仍然保存数据，在活动创建完成从中获取数据

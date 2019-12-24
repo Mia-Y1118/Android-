@@ -78,11 +78,45 @@ class SelectPackageWindow(private var mContext: Context,
 - 限制PopupWindow的最大高度：
 
 ```java
- window = SelectPackageWindow(act!!, this, packageList)
+//通过数据源进行动态限制宽高
+window = SelectPackageWindow(act!!, this, packageList)
             if (packageList?.size ?: 0 > 5) {
                 window?.width = Utils.dip2px(act, 158f).toInt()
                 window?.height = Utils.dip2px(act, 290f).toInt()
             }
  window?.showPopupWindow(iv_course_icon)
+   
+//在外层包一个：
+
+/**
+ * Created by Yangxy on 2019-08-02
+ * description --  可以设置最大高度的RelativeLayout
+ */
+class MaxHeightRelativeLayout @JvmOverloads constructor(context: Context, attr: AttributeSet? = null, def: Int = 0)
+    : RelativeLayout(context, attr, def) {
+
+
+    private var maxHeight: Int = 0
+
+    init {
+        initView(context, attr, def)
+    }
+
+    private fun initView(context: Context, attr: AttributeSet?, def: Int) {
+        if (attr != null) {
+            val a = context.obtainStyledAttributes(attr, R.styleable.MaxHeightRelativeLayout, def, 0)
+            maxHeight = a.getDimensionPixelSize(R.styleable.MaxHeightRelativeLayout_myMaxHeight, Utils.getScreenHeight(context))
+            a.recycle()
+        }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        var newHeightMeasureSpec = heightMeasureSpec
+        if (MeasureSpec.getSize(heightMeasureSpec) > maxHeight) {
+            newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.getMode(heightMeasureSpec))
+        }
+        super.onMeasure(widthMeasureSpec, newHeightMeasureSpec)
+    }
+}
 ```
 
