@@ -16,53 +16,73 @@
 
  - ⑦onRestart:表示Activity正在重新启动。一般情况下，在当前Activity从不可见重新变为可见的状态时onRestart就会被调用。这种情形一般是由于用户的行为所导致的，比如用户按下Home键切换到桌面或者打开了一个新的Activity（这时当前Activity会暂停，也就是onPause和onStop被执行），接着用户有回到了这个Activity，就会出现这种情况。
 
+ - 生命周期图：
+
+   ![image-20200201165900840](/Users/yangxiaoyu/Library/Application Support/typora-user-images/image-20200201165900840.png)
+   
    
 
 ##### 2、注意几点：
 
 ①当用户按下Back键回退时，回调onPause,onStop,onDestroy
 
-②	HOME键的执行顺序：onPause->onStop->onRestart->onStart->onResume 
+②HOME键的执行顺序：onPause->onStop->onRestart->onStart->onResume 
 	BACK键的顺序： onPause->onStop->onDestroy->(新的Activity)onCreate->onStart->onResume 
 
 ③在ActivityA启动ActivityB的时候，需要activityA先执行onPause,ActivityB才会创建（onCreate,onStart,onResume)。
 
-④Activity的启动过程：简单的说就是请求Activity的请求是交给Instrumentation来处理，然后通过Binder向AMS发送请求，AMS内部维护一个ActivityStack并负责Activity的状态同步，AMS通过ActivityThread去同步Activity的状态而完成生命周期方法的调用。
+④finish的具体操作：
+
+- 只是将活动推向后台，将Activity移出栈，并没有及时的调用onDestory（）方法，其占用的资源也没有被及时释放
+- 在Activity中的onCreate中调用finish,则执行到的声明周期方法有：onCreate,onDestroy
+- 在Activity的onStart()中调用finish()方法，则执行的生命周期方法顺序为：
+  onCreate() -> onStart() -> onStop() -> onDestroy()
+- 在Activity的onResume()或onPostResume()中调用finish()方法，则执行的生命周期方法顺序为：
+  onCreate() -> onStart() -> onResume() -> onPause() -> onStop() -> onDestroy()
+
+⑤Activity的启动过程：简单的说就是请求Activity的请求是交给Instrumentation来处理，然后通过Binder向AMS发送请求，AMS内部维护一个ActivityStack并负责Activity的状态同步，AMS通过ActivityThread去同步Activity的状态而完成生命周期方法的调用（有待扩充）。
 
 
 
 ##### 3、异常情况下Activity的生命周期（Activity被系统回收或者由于当前设备的configuration发生改变从而导致Activity被销毁重建)：
 
-- ①资源相关的系统配置发生改变时，Activity被杀死并重新创建（比如：Activity处于竖直状态，如果突然旋转屏幕，由于系统配置发生了改变，在默认情况下，Activity就会被销毁并且重新创建，当然可以组织系统重新创建新的Activity：android:configChanges="orientation|screenSize")，加上screenSize是因为minSdkVersion和targetSdkVersion有一个大于了13。
-- ②Activity在异常情况下被终止，系统会调用onSaveinstanceState来保存当前Activity的状态，并且调用时机是在onStop之前,与onPause没有特定的时序关系。正常情况下，不会调用这个方法。当新Activity被重新创建的时候，系统会调用onRestoreInstanceState来回复数据，在onstart之后执行onRestoreInstanceState。
-- ③资源内存不足导致低优先级的Activity被杀死：当系统内存不足时，系统就会按照上述优先级去杀死目标Activity所在的进程，并后续通过onSaveInstanceState和onRestoreInstanceState来存储和回复数据。
-- ④当Activity在异常情况销毁的时候，系统会默认保存当前Activity的视图结构，并且在Activity重启的时候为我们恢复这些数据（文本框的输入数据，ListView的滚动位置等）。保存和恢复View的层次结构，系统的工作流程如下：当Activity会调用onSaveInstanceState去保存数据，然后委托Window去保存数据，接着Window再委托它的上级容器去保存数据，顶级是一个Viewgroup,很可能是一个DecorView,然后顶级容器再去一一通知它的子元素去保存数据。
+- 资源相关的系统配置发生改变时，Activity被杀死并重新创建（比如：Activity处于竖直状态，如果突然旋转屏幕，由于系统配置发生了改变，在默认情况下，Activity就会被销毁并且重新创建，当然可以阻止系统重新创建新的Activity（android:configChanges="orientation|screenSize")，加上screenSize是因为minSdkVersion和targetSdkVersion有一个大于了13。
+
+- Activity在异常情况下被终止，系统会调用onSaveinstanceState来保存当前Activity的状态，并且调用时机是在onStop之前,与onPause没有特定的时序关系。正常情况下，不会调用这个方法。当新Activity被重新创建的时候，系统会调用onRestoreInstanceState来回复数据，在onstart之后执行onRestoreInstanceState。
+
+- 资源内存不足导致低优先级的Activity被杀死：当系统内存不足时，系统就会按照上述优先级去杀死目标Activity所在的进程，并后续通过onSaveInstanceState和onRestoreInstanceState来存储和回复数据。
+
+- 当Activity在异常情况销毁的时候，系统会默认保存当前Activity的视图结构，并且在Activity重启的时候为我们恢复这些数据（文本框的输入数据，ListView的滚动位置等）。保存和恢复View的层次结构，系统的工作流程如下：当Activity会调用onSaveInstanceState去保存数据，然后委托Window去保存数据，接着Window再委托它的上级容器去保存数据，顶级是一个Viewgroup,很可能是一个DecorView,然后顶级容器再去一一通知它的子元素去保存数据。
+
+  
 
 ### 二、Activity的启动模式（4种）
 
 ##### 1、standard:标准模式
 
-	每次启动一个Activity都会重新创建一个新的实例，不管这个实例是否已经存在。并且谁启动了这个Activity,那么这个Activity就运行在启动它的这个Activity所在的栈中。
+	- 每次启动一个Activity都会重新创建一个新的实例，不管这个实例是否已经存在。并且谁启动了这个Activity,那么这个Activity就运行在启动它的这个Activity所在的栈中。
 	
-	运用非Activity的context去启动一个Activity时会出现AndroidRuntimeException异常，主要原因是ApplicationContext没有所谓的Activity任务栈，解决办法是为待启动的Activity指定：FLAG_ACTIVITY_NEW_TASK的标记位。
+	- 运用非Activity的context去启动一个Activity时会出现AndroidRuntimeException异常，主要原因是ApplicationContext没有所谓的Activity任务栈，解决办法是为待启动的Activity指定：FLAG_ACTIVITY_NEW_TASK的标记位，此时相当于singleTask的启动模式
 
 ##### 2、singleTop:栈顶复用模式
 
-	①如果新的Activity已经位于任务栈的栈顶，那么此Activity不会被重新创建，同时它的onNewIntent方法会被调用，同时该Activity的onCreate和onStart则不会被调用。（onNewIntent)
+	- 如果新的Activity已经位于任务栈的栈顶，那么此Activity不会被重新创建，同时它的onNewIntent方法会被调用，同时该Activity的onCreate和onStart则不会被调用。（注意需要从onNewIntent的intent中获取新的值，否则用的还是原来intent中的值)
 	
-	②如果新的Activity已经位于任务栈但不是位于栈顶，或者栈中不存在，则这个Activity会被重新创建（oncreate,onStart,onResume)。
+	- 如果新的Activity已经位于任务栈但不是位于栈顶，或者栈中不存在，则这个Activity会被重新创建（oncreate,onStart,onResume)。
 
 ##### 3、singleTask:栈内复用模式（单实例模式）
 
-	①当一个具有singleTask模式的Activity A 请求启动，系统首先会寻找是否存在A想要的任务栈，如果不存在，就先创建一个A的任务栈,并将A的实例放入栈中。
+	- 当一个具有singleTask模式的Activity A 请求启动，系统首先会寻找是否存在A想要的任务栈（TaskAffinity指定任务栈的名称），如果不存在，就先创建一个A的任务栈,并将A的实例放入栈中。
 	
-	②如果存在A需要的任务栈，则首先判断是否存在A的实例，如果存在，则调用onNewIntent来唤醒A，并将处于A上面的Activity出栈(clearTop),使得A处于栈顶的位置。  如果不存在,则创建一个A的实例，放置于该栈的栈顶。
+	- 如果存在A需要的任务栈，则首先判断是否存在A的实例，如果存在，则调用A的onNewIntent，并将处于A上面的Activity出栈(singleTask自带clearTop，但是使用标志位启动时需要使用：FLAG_ACTIVITY_NEW_TASK和FLAG_ACTIVITY_CLEAR_TOP标志位),使得A处于栈顶的位置。  如果不存在,则创建一个A的实例，放置于该栈的栈顶。
 
 ##### 4、singleInstance:单实例模式
 
 	①具有此模式的Activity只能单独的位于一个任务栈中。
 	
 	②比如Activity A 是singleInstance模式,当A启动后,系统会为它创建一个新的任务栈。A独自运行在这个任务栈中，后续的请求均不会创建新的Activity,除非这个独特的任务栈被系统销毁了。
+
+
 
 ### 三、TaskAffinity:主要和singleTask启动模式或者allowTaskReparenting属性配对使用,其他情况下没有意义。
 
@@ -74,7 +94,8 @@
 
 	①在AndroidManifest中指定launchMode.(无法为Activity设置FLAG_ACTIVITY_CLEAR_TOP标识）
 	
-	②通过Intent(优先级更高,但是无法指定singleInstance模式):intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+	②通过Intent(优先级更高,但是无法指定singleInstance模式):
+	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
 ### 五、Activity常用的Flags
 
@@ -89,8 +110,7 @@
 ### 六、显示Intent和隐式Intent:
 
 	①显示Intent:（指明了要跳到哪个Activity或者Service，包括包名和类名)
-	Intent intent = new Intent();
-	intent.setAction(Activity1.this,Activity2.class)
+	Intent intent = new Intent(Activity1.this,Activity2.class)
 	
 	②隐式Intent:(没有指明要跳转的类）在AndroidManifest中的intent-filter中实现过滤。intentFilter的过滤信息有action,category,data.一个Activity可以有多个intent-filter,一个Intent只要能匹配任何一组intent-filter即可成功启动对应的Activity.
 	

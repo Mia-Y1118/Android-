@@ -65,5 +65,19 @@
               })
   ```
 
+#### 四、RecyclerView的Item上的button 或者checkBox抢占焦点，导致设置item的点击事件时点击button无效
+
+- 解决办法
+
+  ```java
+  1、把Button、CheckBox替换为 TextView、ImageView
+  2、设置Button、CheckBox的focuable 为false
+  3、设置ListView的item的根布局android:descendantFocusability="blocksDescendants"，一般推荐第三种，意思是ListView的item下边所有的子控件都不能获取焦点,再设置itemview中可点击控件的clickable属性为false如下：android:clickable="false"
+    - beforeDescendants：ViewGroup会优先其子类控件而获取到焦点
+    - afterDescendants：ViewGroup只有当其子类控件不需要获取焦点时才获取焦点
+    - blocksDescendants：ViewGroup会覆盖子类控件而直接获得焦点
+  
+  ```
+
   
 
